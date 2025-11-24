@@ -22,7 +22,11 @@ apptainer exec \
     --bind $COURSEDIR/data/interproscan-5.70-102.0/data:/opt/interproscan/data \
     $COURSEDIR/containers/interproscan_latest.sif \
     /opt/interproscan/interproscan.sh \
-    -appl pfam --disable-precalc -f TSV \ # Use Pfam application with precalculation disabled, output in TSV format
-    --goterms --iprlookup --seqtype p \ # Include GO terms and InterPro annotations for protein sequences
-    -i /data/$protein \ # Input protein sequences
-    -o /data/output.iprscan # Output file name
+    -appl pfam --disable-precalc -f TSV \ 
+    # Use Pfam application with precalculation disabled, output in TSV format
+    --goterms --iprlookup --seqtype p \ 
+    # Include GO terms and InterPro annotations for protein sequences
+    -i /data/$protein \ 
+    # Input protein sequences
+    -o /data/output.iprscan 
+    # Output file name

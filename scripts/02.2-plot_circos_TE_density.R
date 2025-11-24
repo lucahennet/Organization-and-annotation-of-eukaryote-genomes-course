@@ -1,3 +1,11 @@
+#-------------------------------------------------
+# WARNING: As this script uses the final gene annotation,
+# make sure to run it only after completing the gene annotation steps; 
+# i.e., after script 06.3-filter_refine_annotation.sh has been executed.
+# Otherwise, it is also possible to visualise only TE densities without genes by
+# commenting out the gene-related parts of the code.
+#-------------------------------------------------
+
 # Load the circlize package
 library(circlize)
 library(tidyverse)
@@ -60,7 +68,7 @@ filter_genes <- function(gene_data, custom_ideogram) {
 }
 
 # Save to plot folder - TE density with genes
-pdf(file.path(plot_dir, "02-TE_density_with_genes.pdf"), width = 10, height = 10)
+pdf(file.path(plot_dir, "02.2-TE_density_with_genes.pdf"), width = 10, height = 10)
 gaps <- c(rep(1, length(custom_ideogram$chr) - 1), 5)
 circos.par(start.degree = 90, gap.after = 1, track.margin = c(0, 0), gap.degree = gaps)
 
@@ -88,7 +96,7 @@ draw(lgd, x = unit(0.5, "npc"), y = unit(0.5, "npc"), just = c("center"))
 circos.clear()
 dev.off()
 
-cat("Plot with genes saved to:", file.path(plot_dir, "02-TE_density_with_genes.pdf"), "\n")
+cat("Plot with genes saved to:", file.path(plot_dir, "02.2-TE_density_with_genes.pdf"), "\n")
 
 # Now plot all your most abundant TE superfamilies in one plot with genes
 
@@ -108,7 +116,7 @@ superfamily_colors <- c(
 )
 
 # Save all superfamilies plot with genes to plot folder
-pdf(file.path(plot_dir, "02-TE_density_all_superfamilies_with_genes.pdf"), width = 10, height = 10)
+pdf(file.path(plot_dir, "02.2-TE_density_all_superfamilies_with_genes.pdf"), width = 10, height = 10)
 gaps <- c(rep(1, length(custom_ideogram$chr) - 1), 5)
 circos.par(start.degree = 90, gap.after = 1, track.margin = c(0, 0), gap.degree = gaps)
 
@@ -137,7 +145,7 @@ draw(lgd_all, x = unit(0.5, "npc"), y = unit(0.5, "npc"), just = c("center"))
 circos.clear()
 dev.off()
 
-cat("All superfamilies with genes plot saved to:", file.path(plot_dir, "02-TE_density_all_superfamilies_with_genes.pdf"), "\n")
+cat("All superfamilies with genes plot saved to:", file.path(plot_dir, "02.2-TE_density_all_superfamilies_with_genes.pdf"), "\n")
 
 # Plot the distribution of Athila and CRM clades (known centromeric TEs in Brassicaceae)
 
@@ -250,7 +258,7 @@ if (exists("new_data") && nrow(new_data) > 0) {
   }
   
   # Save clades plot with genes
-  pdf(file.path(plot_dir, "02-TE_density_clades_with_genes.pdf"), width = 10, height = 10)
+  pdf(file.path(plot_dir, "02.2-TE_density_clades_with_genes.pdf"), width = 10, height = 10)
   gaps <- c(rep(1, length(custom_ideogram$chr) - 1), 5)
   circos.par(start.degree = 90, gap.after = 1, track.margin = c(0, 0), gap.degree = gaps)
   
@@ -282,7 +290,7 @@ if (exists("new_data") && nrow(new_data) > 0) {
   
   dev.off()
   
-  cat("Clades plot with genes saved to:", file.path(plot_dir, "02-TE_density_clades_with_genes.pdf"), "\n")
+  cat("Clades plot with genes saved to:", file.path(plot_dir, "02.2-TE_density_clades_with_genes.pdf"), "\n")
 } else {
   cat("Skipping clades plot - no data available after merging.\n")
 }

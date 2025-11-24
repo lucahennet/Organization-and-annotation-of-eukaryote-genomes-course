@@ -20,9 +20,14 @@ cd "$OUTDIR"
 apptainer run --bind /data $CONTAINER \
     EDTA.pl \
     --genome $INPUT_FASTA \
-    --species others \ # general mode
-    --step all \ # run all steps of the EDTA pipeline
-    --sensitive 1 \ # enable sensitive mode for better detection
-    --cds "/data/courses/assembly-annotation-course/CDS_annotation/data/TAIR10_cds_20110103_representative_gene_model_updated" \ # reference coding Sequence to filter out protein-coding genes.
-    --anno 1 \ # final annotation step to generate the non-redundant TE library and annotation file
+    --species others \ 
+    # general mode
+    --step all \ 
+    # run all steps of the EDTA pipeline
+    --sensitive 1 \ 
+    # enable sensitive mode for better detection
+    --cds "/data/courses/assembly-annotation-course/CDS_annotation/data/TAIR10_cds_20110103_representative_gene_model_updated" \ 
+    # reference coding Sequence to filter out protein-coding genes.
+    --anno 1 \ 
+    # final annotation step to generate the non-redundant TE library and annotation file
     --threads $SLURM_CPUS_PER_TASK

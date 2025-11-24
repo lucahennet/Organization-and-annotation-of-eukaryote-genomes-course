@@ -29,7 +29,8 @@ module load AUGUSTUS/3.4.0-foss-2021a
 mkdir -p $SCRATCH/MAKER_TMP
 
 # Run MAKER gene annotation pipeline with MPI support.
-mpiexec --oversubscribe -n 50 \ # allows processes to run on the same core if needed
+mpiexec --oversubscribe -n 50 \ 
+# allows processes to run on the same core if needed
   apptainer exec \
     --bind /data \
     --bind $SCRATCH:/TMP \
@@ -37,9 +38,12 @@ mpiexec --oversubscribe -n 50 \ # allows processes to run on the same core if ne
     --bind $AUGUSTUS_CONFIG_PATH \
     --bind $REPEATMASKER_DIR \
     ${COURSEDIR}/containers/MAKER_3.01.03.sif \
-    maker -mpi \ # tells MAKER to run in parallel mode
-          --ignore_nfs_tmp \ # forces MAKER to use the user-defined temporary path
-          -TMP /TMP \ # specify temporary directory inside the container
+    maker -mpi \ 
+    # tells MAKER to run in parallel mode
+          --ignore_nfs_tmp \ 
+          # forces MAKER to use the user-defined temporary path
+          -TMP /TMP \ 
+          # specify temporary directory inside the container
           maker_opts.ctl \
           maker_bopts.ctl \
           maker_evm.ctl \

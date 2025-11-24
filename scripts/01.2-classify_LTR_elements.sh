@@ -20,5 +20,6 @@ cd "$OUTDIR"
 apptainer run --bind /data $CONTAINER \
     TEsorter \
     $INPUT \
-    -db rexdb-plant \ # classification database for plants
+    -db rexdb-plant \ 
+    # classification database for plants
     -p $SLURM_CPUS_PER_TASK \

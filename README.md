@@ -2,7 +2,7 @@
 
 ## Description of the projet
 
-This repository contains the scripts and documentation resulting from the "Organization and annotation of eukaryote genomes" course given at the University of Fribourg, Switzerland. This project directly follows the "Genome assembly and annotation"course, further information about which can be found on the following GitHub page:  
+This repository contains the scripts and documentation resulting from the "Organization and annotation of eukaryote genomes" course (2025) given at the University of Fribourg, Switzerland. This project directly follows the "Genome assembly and annotation"course (2025), further information about which can be found on the following GitHub page:  
 https://github.com/lucahennet/Genome-Assembly-and-Annotation-Course. 
 
 A comprehensive pipeline was executed for the annotation and comparative genomics of the *Arabidopsis thaliana* accession **Elh-2**. The main objectives were:
@@ -26,7 +26,9 @@ Additionally, the comprehensive reference genome of Arabidopsis thaliana TAIR10 
 
 ## Workflow and script guide
 
-All scripts are configured as *SLURM batch jobs* (`.sh`) are designed to run on a cluster environment, often utilising Apptainer containers for dependency management. Some R scripts can be run locally. Scripts should be run in the numerical order presented below, unless explicitly notified.
+All scripts are configured as *SLURM batch jobs* (`.sh`) are designed to run on a cluster environment, often utilising Apptainer containers for dependency management. Some R scripts can be run locally. Scripts should be run in the numerical order presented in the script folder, unless explicitly notified.
+
+    Note that the following scripts were in general diretly provided per se by the course material. However, adustments have been done to adjust the outputs or the parameters used. 
 
 ### 1. Transposable Element (TE) annotation
 
@@ -128,20 +130,24 @@ This phase compares the annotated genome against other accessions to study pange
 ---
 
 ## Dependencies
+Note that the different parameters used are in general listed and explained within the scripts.
 
 ### Core tools
-| Tool | Version | Purpose |
-| :--- | :--- | :--- |
-| **EDTA** | 2.2 | TE Annotation |
-| **TEsorter** | 1.3.0 | TE Classification |
-| **MAKER** | 3.01.03 | Gene Prediction |
-| **BUSCO** | 5.4.2 | QC / Completeness |
-| **AGAT** | 1.5.1 | Annotation Statistics |
-| **InterProScan** | 5.70-102.0 | Functional Annotation |
-| **BLAST+** | 2.15.0 | Homology Search |
-| **GENESPACE** | Latest | Comparative Genomics |
+| Tool | Version | 
+| :--- | :--- | 
+| **EDTA** | 2.2 | 
+| **TEsorter** | 1.3.0 | 
+| **MAKER** | 3.01.03 | 
+| **BUSCO** | 5.4.2 | 
+| **AGAT** | 1.5.1 | 
+| **InterProScan** | 5.70-102.0 | 
+| **BLAST+** | 2.15.0 | 
+| **GENESPACE** | Latest | 
 
 ### R packages
 * `tidyverse`, `data.table`, `cowplot`
 * `circlize`, `ComplexHeatmap`
 * `GENESPACE`
+
+## Maintenance Status
+This project was developed as part of an academic course and will not be under active maintenance. The code is provided as-is without guarantees of future updates or support.

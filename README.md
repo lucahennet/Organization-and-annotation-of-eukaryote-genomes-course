@@ -28,7 +28,7 @@ Additionally, the comprehensive reference genome of Arabidopsis thaliana TAIR10 
 
 All scripts are configured as *SLURM batch jobs* (`.sh`) are designed to run on a cluster environment, often utilising Apptainer containers for dependency management. Some R scripts can be run locally. Scripts should be run in the numerical order presented in the script folder, unless explicitly notified.
 
-    Note that the following scripts were in general diretly provided per se by the course material. However, adustments have been done to adjust the outputs or the parameters used. 
+Note that the following scripts were in general diretly provided per se by the course material. However, adustments have been done to adjust the outputs or the parameters used. 
 
 ### 1. Transposable Element (TE) annotation
 

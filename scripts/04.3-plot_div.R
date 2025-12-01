@@ -10,7 +10,7 @@ if (!dir.exists(plot_dir)) {
 }
 
 # get data from parameter
-data <- "assembly.fasta.mod.EDTA.anno/assembly.fasta.mod.out.landscape.Div.Rname.tab" #TODO
+data <- "Elh-2.asm.bp.p_ctg.fa.mod.out.landscape.Div.Rname.tab
 
 rep_table <- fread(data, header = FALSE, sep = "\t")
 rep_table %>% head()

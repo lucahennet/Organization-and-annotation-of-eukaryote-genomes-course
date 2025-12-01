@@ -4,7 +4,13 @@ library(readr)
 # -----------------
 # 0) Inputs
 # -----------------
-wd <- "C:/Users/lucah/Documents/05_Studies/Master/HS2025/Organization_annotation_eukaryote/R" # set your working directory where the pangenome_matrix.rds is located
+# Create plot directory if it doesn't exist
+plot_dir <- "plots"
+if (!dir.exists(plot_dir)) {
+  dir.create(plot_dir)
+}
+
+wd <- "." # or specify the actual working directory
 focal_genome <- "Elh_2" # Your focal accession name
 pangenome <- readRDS(file.path(wd, "pangenome_matrix.rds"))
 
@@ -211,7 +217,7 @@ ggplot(freq_data, aes(x = n_present, y = count, fill = type)) +
     labels = 1:n_genomes
   ) +
   scale_y_continuous(labels = scales::comma) +
-  scale_fill_manual(values = c("Genes" = "#0072B2", "Orthogroups" = "#D55E00")) +
+  scale_fill_manual(values = c("Genes" = "#348888", "Orthogroups" = "#22BABB")) +
   labs(
     x = "Number of genomes",
     y = "Count",
@@ -242,3 +248,132 @@ freq_summary <- freq_data %>%
   select(n_present, label, Orthogroups, Genes)
 
 print(freq_summary)
+
+# -----------------
+# 6) Stacked barplot: Gene composition by accession
+# -----------------
+
+# Sort genomes by total gene count (descending)
+gene_composition_sorted <- gene_composition %>%
+  left_join(gene_counts_per_genome %>% select(genome, gene_total), by = "genome") %>%
+  mutate(genome = fct_reorder(genome, gene_total, .fun = max, .desc = TRUE))
+
+# New colours
+new_cols <- c(
+  "Core" = "#F24405",
+  "Accessory" = "#FA7F08",
+  "Accession-specific" = "#9EF8EE"
+)
+
+# Plot (NO percentages)
+p_sorted <- ggplot(gene_composition_sorted, aes(x = genome, y = count, fill = category)) +
+  geom_col(width = 0.75, color = "black", linewidth = 0.2) +
+  scale_fill_manual(values = new_cols) +
+  scale_y_continuous(labels = scales::comma, expand = c(0, 0)) +
+  labs(
+    x = "Accessions",
+    y = "Gene count",
+    fill = "Gene category",
+    title = "Gene composition by accession"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "top",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+print(p_sorted)
+
+ggsave(file.path(wd, "plots/09.4-gene_composition_with_percentages.pdf"), width = 10, height = 6)
+
+# ================================================================
+# 7) Combined 2-panel figure: 
+#     (A) Pangenome frequency plot
+#     (B) Gene composition per accession
+# ================================================================
+
+library(patchwork)   # for combining panels
+
+# ----------------------------
+# A) Rebuild panel A (OG + Gene frequency plot) with matching colours
+# ----------------------------
+
+panelA <- ggplot(freq_data, aes(x = n_present, y = count, fill = type)) +
+  geom_col(position = "dodge", width = 0.7, colour = "black", linewidth = 0.2) +
+  scale_x_continuous(
+    breaks = 1:n_genomes,
+    labels = 1:n_genomes
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_fill_manual(values = c(
+    "Genes" = "#348888",
+    "Orthogroups" = "#22BABB"
+  )) +
+  labs(
+    x = "Number of genomes",
+    y = "Count",
+    fill = NULL,
+    title = "A) Pangenome composition",
+    subtitle = "Distribution of orthogroups and genes across genomes"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "top",
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold")
+  )
+
+
+# ----------------------------
+# B) Rebuild panel B (gene composition per accession)
+# ----------------------------
+
+# Sort genomes by total gene count (descending)
+gene_composition_sorted <- gene_composition %>%
+  left_join(gene_counts_per_genome %>% select(genome, gene_total), by = "genome") %>%
+  mutate(genome = fct_reorder(genome, gene_total, .fun = max, .desc = TRUE))
+
+# Harmonised palette for good visual flow with panel A
+panelB_cols <- c(
+  "Core" = "#F24405",
+  "Accessory" = "#FA7F08",
+  "Accession-specific" = "#9EF8EE"
+)
+
+panelB <- ggplot(gene_composition_sorted, aes(x = genome, y = count, fill = category)) +
+  geom_col(width = 0.75, color = "black", linewidth = 0.2) +
+  scale_fill_manual(values = panelB_cols) +
+  scale_y_continuous(labels = scales::comma, expand = c(0, 0)) +
+  labs(
+    x = "Accessions",
+    y = "Gene count",
+    fill = "Gene category",
+    title = "B) Gene composition by accession"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "top",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+# ----------------------------
+# Combine into two stacked panels
+# ----------------------------
+
+combined_plot <- panelA / panelB +
+  plot_layout(heights = c(1, 1.1))   # ENHANCE readability: B slightly taller
+
+ggsave(
+  file.path("plots", "09.4-combined_pangenome_panels.pdf"),
+  combined_plot,
+  width = 10,
+  height = 12
+)
+
+print(combined_plot)

@@ -16,9 +16,11 @@ The assembled genome for the Elh-2 accession was obtained from the results of th
 
 The datasets used in this project come from the following studies:
 
-Lian Q, et al. A pan-genome of 69 Arabidopsis thaliana accessions reveals a conserved genome structure throughout the global species range Nature Genetics. 2024;56:982-991. Available from: https://www.nature.com/articles/s41588-024-01715-9
+Lian Q, et al. A pan-genome of 69 Arabidopsis thaliana accessions reveals a conserved genome structure throughout the global species range Nature Genetics. 2024;56:982-991. Available from:  
+ https://www.nature.com/articles/s41588-024-01715-9
 
-Jiao WB, Schneeberger K. Chromosome-level assemblies of multiple Arabidopsis genomes reveal hotspots of rearrangements with altered evolutionary dynamics. Nature Communications. 2020;11:1–10. Available from: http://dx.doi.org/10.1038/s41467-020-14779-y
+Jiao WB, Schneeberger K. Chromosome-level assemblies of multiple Arabidopsis genomes reveal hotspots of rearrangements with altered evolutionary dynamics. Nature Communications. 2020;11:1–10. Available from:  
+ http://dx.doi.org/10.1038/s41467-020-14779-y
 
 Additionally, the comprehensive reference genome of Arabidopsis thaliana TAIR10 was used.
 
@@ -26,9 +28,9 @@ Additionally, the comprehensive reference genome of Arabidopsis thaliana TAIR10 
 
 ## Workflow and script guide
 
-All scripts are configured as *SLURM batch jobs* (`.sh`) are designed to run on a cluster environment, often utilising Apptainer containers for dependency management. Some R scripts can be run locally. Scripts should be run in the numerical order presented in the script folder, unless explicitly notified.
+All scripts configured as *SLURM batch jobs* (`.sh`) are designed to run on a cluster environment, often utilising Apptainer containers for dependency management. Some R scripts can be run locally. Scripts should be run in the numerical order presented in the script folder, unless explicitly notified.
 
-Note that the following scripts were in general diretly provided per se by the course material. However, adustments have been done to adjust the outputs or the parameters used. 
+Note that the following scripts were in general directly provided per se by the course material. However, adustments have been done to adjust the outputs or the parameters used. 
 
 ### 1. Transposable Element (TE) annotation
 
@@ -49,11 +51,14 @@ This phase identifies TEs and analyses TE dynamics (age and distribution) across
     Generates circular genome plots (Circos) showing the density of TE Superfamilies across the longest scaffolds. It is recommanded to run this script after gene annotation is completed, so that a track for gene density can be added for comparative visualisation.
     
 * **`03-refine_TE_classification.sh`** - **Library refinement**      
-    Extracts Copia and Gypsy sequences from the non-redundant TE library and runs TEsorter separately on these subsets for amore detailed clade resolution.
+    Extracts Copia and Gypsy sequences from the non-redundant TE library and runs TEsorter separately on these subsets for a more detailed clade resolution.
 
 #### 1.3 TE age estimation
 * **`04.1-estimate_TE_age.sh`** & **`04.2-parseRM.pl`** - **Divergence analysis**  
     Executes the custom Perl script `04.2-parseRM.pl` to calculate the corrected divergence for each TE copy. This divergence value is then used to estimate the element's insertion age.
+
+    Source: Kapusta, Suh & Feschotte (2017) PNAS (doi: 10.1073/pnas.1616702114)  
+    parseRM.pl, v5.8.2, https://github.com/4ureliek/Parsing-RepeatMasker-Outputs 
 
 * **`04.3-plot_div.R`** - **TE landscape plot**  
     Visualises the temporal dynamics of TE accumulation (the "TE Landscape") by plotting sequence abundance against divergence.
@@ -84,7 +89,7 @@ This phase predicts consensus gene models by integrating all available evidence 
 This phase cleans the annotation (raw MAKER output), and assigns biological functions to produce the final annotation set.
 
 #### 3.1 ID management and functional analysis
-* **`06.1-rename_MAKER_ids.sh`** - **Systematic Renaming**  
+* **`06.1-rename_MAKER_ids.sh`** - **Systematic renaming**  
     Replaces internal MAKER IDs with clean, accession-specific identifiers (e.g., `Elh-2...`) across the GFF3, protein, and transcript FASTA files.
 
 * **`06.2-run_InterProScan_functional_annotation.sh`** - **Domain search**  
@@ -119,7 +124,7 @@ This phase quantifies the completeness and structural statistics of the final an
 This phase compares the annotated genome against other accessions to study pangenome structure and synteny. 
 
 * **`09.1-setup_genespace.sh`** - **Data prep**  
-    Prepares the required input files for GENESPACE by formatring the annotations of `Elh-2`, `TAIR10`and other accessions (`Are-6`, `Ice-1`, `Taz-0`) into standardised BED and FASTA files.
+    Prepares the required input files for GENESPACE by formatring the annotations of `Elh-2`, `TAIR10` and other accessions (`Are-6`, `Ice-1`, `Taz-0`) into standardised BED and FASTA files.
 
 * **`09.2-submit_GENESPACE_run.sh`** & **`09.3-run_GENESPACE_analysis.R`** - **Pipeline execution**  
     Launches the R script, executing the core GENESPACE pipeline. The pipeline will detect syntenic blocks (MCSanX) and construct a pangenome matrix.
